@@ -1,10 +1,24 @@
-from typing import Self
-from user.user import User
 from admin.admin import Admin
 from manager.manager import Manager
 from chef.chef import Chef
 from customer.customer import Customer
 import os
+
+
+class User:
+    def __init__(self, username, email, password, role):
+        self.username = username
+        self.email = email
+        self.password = password
+        self.role = role
+        self.loginAttempts = 0
+
+    def resetLoginAttempts(self):
+        self.loginAttempts = 0
+
+    def incrementLoginAttempts(self):
+        self.loginAttempts += 1
+        
 
 
 class System:
@@ -55,22 +69,22 @@ class System:
     
     
         
-    #for login 
-    def login(self, Username , Password):
-        for user in self.users:
-            if user.username== Username and user.password== Password:
-                user.resetLoginAttempts()
-                return user
-            else:
-                user.incrementLoginAttempts()
-                if user.loginAttempts >=3:
-                    print("Login attempt exceed")
-                    return None
-                print(f"Invalid password. Attempt {user.loginAttempts}/3.")
-                return self.login(input("Enter the Username: "), input("Enter the Password: "))
-        print("User not found.")
-        return None
+    #for login page
     
+    def login(self,username,password):
+        attempts = 0
+        while attempts < 3:
+            for user in self.users:
+                if user.username== username and user.password==password:
+                    user.resetLoginAttempts()
+                    return user
+            attempts += 1
+            print(f"Invalid password. Attempt {attempts}/3.")
+            if attempts < 3:
+                username = input("Enter the Username: ")
+                password = input("Enter the Password: ")
+        print("Login attempt exceed")
+        return None
     
     # sign Up page
     def signup(self, username ,email, password,role):
@@ -92,6 +106,8 @@ class System:
             self.chef.chefMenu(user)
         elif user.role=="Customer":
             self.customer.customerMenu(user)
+        else:
+            print("Role not recognized. Redirecting to home.")
     
 
 
