@@ -99,7 +99,7 @@ class System:
     #for Menu page
     def menu(self, user):
         if user.role == "Admin":
-            self.admin.adminMenu(user)
+            self.admin.admin_menu(user)
         elif user.role=="Manager":
             self.manager.managerMenu(user)
         elif user.role=="Chef":

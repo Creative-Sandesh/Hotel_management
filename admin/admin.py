@@ -1,7 +1,7 @@
-from admin_menu import manageStaff as manage_staff
-from admin_menu import viewSalesReport as sales_report
-from admin_menu import viewCustomerFeedback as customer_feedback
-from admin_menu import updateProfile as update_profile
+from .admin_menu import manageStaff as manage_staff
+from .admin_menu import viewSalesReport as sales_report
+from .admin_menu import viewCustomerFeedback as customer_feedback
+from .admin_menu import updateProfile as update_profile
 
 class Admin:
     def __init__(self, system):

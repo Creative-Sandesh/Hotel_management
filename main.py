@@ -5,7 +5,6 @@ class Main:
         
         
             while True:
-                system.clearScreen()
                 print("Welcome! Please choose an option:")
                 print("1. Staff Login (Admin, Manager, Chef)")
                 print("2. Non-Staff Login (Customer)")
