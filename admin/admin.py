@@ -1,26 +1,61 @@
-from .admin_menu import manageStaff as manage_staff
-from .admin_menu import viewSalesReport as sales_report
-from .admin_menu import viewCustomerFeedback as customer_feedback
-from .admin_menu import updateProfile as update_profile
+# admin_menu/updateProfile.py
+from system import System
 
-class Admin:
-    def __init__(self, system):
-        self.system = system
-        
-    def admin_menu(self, user):
-        print("Admin Menu:")
-        print("1. Manage Staff")
-        print("2. View Sales Report")
-        print("3. View Customer Feedback")
-        print("4. Update Profile")
-        choice = input("Enter your Choice: ")
-        if choice == '1':
-            manage_staff.manage_staff()
-        elif choice == '2':
-            sales_report.view_sales_report()
-        elif choice == '3':
-            customer_feedback.view_customer_feedback()
-        elif choice == '4':
-            update_profile.update_profile()
+def update_profile():
+    username = input("Enter the username of the user you want to update: ")
+    system = System()  # Create an instance of the System class to access the data
+
+    # Check if the user is a staff member or customer
+    user_found = False
+    user = None
+
+    # Check in staff data
+    for staff_member in system.users:
+        if staff_member.username == username:
+            user = staff_member
+            user_found = True
+            break
+
+    # Check in customer data
+    if not user_found:
+        for customer in system.customers:
+            if customer.username == username:
+                user = customer
+                user_found = True
+                break
+
+    if user_found:
+        # Show the current details
+        print(f"Current details: Username: {user.username}, Email: {user.email}, Role: {user.role if hasattr(user, 'role') else 'Customer'}")
+
+        # Ask what to update
+        print("What would you like to update?")
+        option = input("1. Username\n2. Email\n3. Password\n4. Role (only for staff)\nEnter choice (1-4): ")
+
+        if option == '1':
+            new_username = input("Enter new username: ")
+            user.username = new_username
+        elif option == '2':
+            new_email = input("Enter new email: ")
+            user.email = new_email
+        elif option == '3':
+            new_password = input("Enter new password: ")
+            user.password = new_password
+        elif option == '4' and hasattr(user, 'role'):  # Only update role if the user is staff
+            new_role = input("Enter new role (e.g., Manager, Chef): ")
+            user.role = new_role
         else:
-            print("Invalid Choice. Please try again.")
+            print("Invalid option.")
+            return
+
+        # Save the updated data back to file
+        if hasattr(user, 'role'):  # It's a staff member
+            system.save_staff_to_file()  # Save updated staff data
+        else:  # It's a customer
+            system.save_customers_to_file()  # Save updated customer data
+
+        print(f"{username}'s profile has been updated successfully!")
+    else:
+        print(f"No user found with the username '{username}'.")
+
+    input("Press Enter to continue...")

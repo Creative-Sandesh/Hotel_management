@@ -1,4 +1,4 @@
 admin,admin123@gmail.com,admin,Admin
 manager,manager@gmail.com,manager,Manager
 chef,chef@gmail.com,chef,Chef
-sandesh,sandesh@gmail.com,password,Customer
+

@@ -1,2 +1,1 @@
-def manage_staff():
-    print("Manage Staff:")
+print("waint")

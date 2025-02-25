@@ -114,3 +114,24 @@ class System:
             self.customer.customerMenu(user)
         else:
             print("Role not recognized. Redirecting to home.")
+    
+    # Delete a user (both staff and customers)
+    def delete_user(self, username):
+        user_found = False
+        for i, user in enumerate(self.users):
+            if user.username == username:
+                del self.users[i]
+                self.save_staff_to_file()
+                user_found = True
+                break
+        for i, customer in enumerate(self.customers):
+            if customer.username == username:
+                del self.customers[i]
+                self.save_customers_to_file()
+                user_found = True
+                break
+
+        if not user_found:
+            print("User not found!")
+        else:
+            print(f"User {username} has been deleted successfully.")

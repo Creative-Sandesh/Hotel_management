@@ -28,4 +28,4 @@ def view_sales_report():
 
 if __name__ == "__main__":
     view_sales_report()
-    input("Press Enter to continue...")
+    
